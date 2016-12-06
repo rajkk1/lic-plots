@@ -12,7 +12,7 @@ Need to have R installed: https://cran.r-project.org/
 * licensePlots.R -  Plots Matlab and Mathematica licenses used each month for the last 12 months and outputs it to lic-usage-plot.png
 * (optional) lic-usage.php - Website displaying plot
 
-## Installing
+
 * Put MatlabLicScript and MathematicaLicScript in whichever directory you want. Let's call that path to that directory [exePath]
 * Put licencePlots.R in whichever directory you want. Let's call that path to that directory [dataPath] 
 * Create two empty text files in [dataPath] and call them "MatlabLicStat.txt" and "MathematicaLicStat.txt"
@@ -29,3 +29,6 @@ and adding these two lines to the bottom:
 This causes the scripts to run every hour (on the 42nd minute).
 * (optional) replace "[dataPath]" in lic-usage.php with the correct path.
 
+## Sample output of lic-usage-plot.png
+
+[![lic-plots plot](https://github.com/rajkk1/lic-plots/raw/master/lic-usage-plot.png)]
