@@ -1,0 +1,37 @@
+#!/bin/bash
+#Script name: MatlabLicScript
+#Description: Takes in current date, time & licenses being used and appends them to MatlabLicStat.txt
+#in CSV format. Normally runs hourly through cron.
+#Extra note about carriage return (CR) character: If you get the error:
+#         "bad interpreter: /bin/bash^M: nos uch file or directory
+#It's because windows uses a different character to mark the end of the line as linux. In order to fix
+#this problem, go to the directory of this file and run
+#         sed -i -e 's/\r$//' MatlabLicScript
+#####################################################################################################
+
+###Useful note: /[matlabPath]/matlab/etc/glnxa64/lmstat -a -c /[flexnetPath]/flexnet/MLM.lic displays the licenses
+###manager status
+
+###Extract total licenses and number of licenses used
+#Extract line that has information about total licenses and licenses in use (starts with "Users of MATLAB:")
+licenses=$(/[matlabPath]/matlab/etc/glnxa64/lmstat -a -c /[flexnetPath]/flexnet/MLM.lic | grep "Users of MATLAB:")
+#Extract first number from line (corresponds to total licenses)
+totLics=$(echo $licenses | grep -o '[0-9]\+' | head -n 1)
+totLics=${totLics} #string to int
+#Extract second (i.e. last) number from line (corresponds to total licenses used)
+totUsedLics=$(echo $licenses | grep -o '[0-9]\+' | tail -n 1)
+totUsedLics=${totUsedLics} #string to int
+
+###Extract licenses used by "dummy"
+#Extract line that has information about total licenses used by dummy (has the word with "dummy")
+dummyLicsLine=/$(/[matlabPath]/matlab/etc/glnxa64/lmstat -a -c /[flexnetPath]/flexnet/MLM.lic | grep "dummy")
+#Extract first number from line (corresponds to licenses used by dummy)
+dummyLics=$(echo $dummyLicsLine | grep -o '[0-9]\+'|head -n 1)
+dummyLics=${dummyLics} #string to int
+
+###Get date, time and licenses used
+curDate=$(date "+%m/%d/%y")
+curTime=$(date "+%H:%M:%S")
+usedLics=$((totUsedLics-dummyLics))
+
+echo $curDate,$curTime,$usedLics >> ~/[dataPath]/MatlabLicStat.txt

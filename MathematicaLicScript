@@ -1,0 +1,29 @@
+#!/bin/bash
+#Script name: MathematicaLicScript
+#Description: Takes in current date, time & licenses being used and appends them to MathematicaLicStat.txt
+#in CSV format. Normally runs hourly through cron.
+#Extra note about carriage return (CR) character: If you get the error:
+#         "bad interpreter: /bin/bash^M: nos uch file or directory
+#It's because windows uses a different character to mark the end of the line as linux. In order to fix
+#this problem, go to the directory of this file and run
+#         sed -i -e 's/\r$//' MathematicaLicScript
+#to remove these characters.
+#####################################################################################################
+
+###Useful note: /[wolframPath]/Wolfram/MathLM/monitorlm displays the license manager status
+
+###Extract total licenses and number of licenses used
+#Extract line that has information about total licenses and licenses in use (starts with "Mathematica")
+licenses=$(/[wolframPath]/Wolfram/MathLM/monitorlm |grep "Mathematica" -m1)
+#Extract second (i.e. last) number from line (corresponds to total licenses)
+totLics=$(echo $licenses | grep -o '[0-9]\+' | tail -n 1)
+totLics=${totLics} #string to int
+#Extract first number from line (corresponds to total licenses used)
+usedLics=$(echo $licenses | grep -o '[0-9]\+' | head -n 1)
+usedLics=${usedLics} #string to int
+
+###Get date, time and licenses used
+curDate=$(date "+%m/%d/%y")
+curTime=$(date "+%H:%M:%S")
+
+echo $curDate,$curTime,$usedLics >> ~/[dataPath]/MathematicaLicStat.txt
