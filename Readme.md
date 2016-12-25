@@ -5,6 +5,11 @@ Scripts to record and plot hourly use of Mathematica and Matlab network license 
 ## Prerequisites
 
 Need to have R installed: https://cran.r-project.org/
+Need to have the following packages in R installed:
+* lubridate
+* ggplot2
+* gridExtra
+* zoo
 
 ## File Descriptions
 * MatlabLicScript - Takes in current date, time & Matlab licenses being used and appends them to MatlabLicStat.txt in CSV format.
