@@ -17,7 +17,7 @@ Need to have the following packages in R installed:
 * licensePlots.R -  Plots Matlab and Mathematica licenses used each month for the last 12 months and outputs it to lic-usage-plot.png
 * (optional) lic-usage.php - Website displaying plot
 
-
+## Installation
 * Put MatlabLicScript and MathematicaLicScript in whichever directory you want. Let's call that path to that directory [exePath]
 * Put licencePlots.R in whichever directory you want. Let's call that path to that directory [dataPath] 
 * Create two empty text files in [dataPath] and call them "MatlabLicStat.txt" and "MathematicaLicStat.txt"
